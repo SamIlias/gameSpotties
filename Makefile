@@ -13,13 +13,9 @@ test:
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 
-lint:
-	npm run lint
+build:
+	docker build -t game-spotties .
 
-fix:
-	npm run fix
-
-format:
-	npm run format
-
+run:
+	docker run -d -p 8080:80 game-spotties
 .PHONY: test
