@@ -1,5 +1,4 @@
-// @ts-check
-
+import './styles.css';
 import app from './application.js';
 
 app();

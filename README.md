@@ -3,6 +3,7 @@ This is my first web project, based on the Hexlet
 The following technologies were used:
 
 1.  HTML (including Bootstrap)
-2.  JavaScript (including npm package and outside libraries)
-3.  Webpack
-4.  Docker
+2.  CSS
+3.  JavaScript (including npm package and outside libraries)
+4.  Webpack
+5.  Docker

@@ -1,40 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <title>Spotties</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-      crossorigin="anonymous"
-    />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="../src/styles.css" />
+  <title>Spotties</title>
 
-  <body>
-    <h2>My first web project. Spotties game</h2>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
+</head>
 
-    <div class="container m-3">
-      <p><em>Based on Hexlet challenge</em></p>
-      <p>
-        The game of 15 or spotties is a popular puzzle game invented in 1878 by
-        Noah Chapman. The goal of the game is to move the tales around the box
-        to arrange them by numbers, preferably with as few movements as
-        possible.
-      </p>
+<body>
+  <h2>My first web project. Spotties game</h2>
+
+  <div>
+    <p><em>Based on Hexlet challenge</em></p>
+    <p>
+      The game of 15 or spotties is a popular puzzle game invented in 1878 by
+      Noah Chapman. The goal of the game is to move the tales around the box
+      to arrange them by numbers, preferably with as few movements as
+      possible.
+    </p>
+  </div>
+
+  <div class="container m-3">
+    <div class="gem-puzzle box"></div>
+    <div class="count box">
+      <p>Count of movements:</p>
+      <h3 style="color: green" class="counter">text</h3>
     </div>
+  </div>
+  <p style="color: green">Use keyboard arrows to move tales.</p>
 
-    <div class="container m-3">
-      <div class="gem-puzzle"></div>
-    </div>
-    <p>Use keyboard arrows to move tales.</p>
+  <script src="bundle.js"></script>
+</body>
 
-    <script src="bundle.js"></script>
-  </body>
 </html>
