@@ -89,7 +89,7 @@ export default (randomize = _.shuffle) => {
   const newTable = generateTable(4, 4);
   divEl.appendChild(newTable);
 
-  const shuffleValues = randomize(values);
+  const shuffleValues = randomize(values) || values;
   shuffleValues.push(null);
 
   const table = divEl.firstElementChild;
