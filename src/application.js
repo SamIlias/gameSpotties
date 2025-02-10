@@ -1,5 +1,7 @@
 import _ from 'lodash';
+import onChange from 'on-change';
 
+/* eslint-disable no-param-reassign */
 function generateTable(rowNum, colNum) {
   const tbl = document.createElement('table');
   const tblBody = document.createElement('tbody');
@@ -16,95 +18,138 @@ function generateTable(rowNum, colNum) {
   }
   tbl.appendChild(tblBody);
   tbl.setAttribute('border', 2);
-  tbl.setAttribute('class', 'table-bordered');
-  tbl.setAttribute('class', 'table-success');
+  tbl.setAttribute('class', 'table-bordered table-success game-field');
 
   return tbl;
 }
 
-const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+const values = [1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12];
 
-const render = (table, tableValues, counterEl, counter) => {
-  for (let i = 0; i < 4; i += 1) {
-    for (let j = 0; j < 4; j += 1) {
-      /* eslint-disable no-param-reassign */
-      const curValue = tableValues[4 * i + j];
-      table.rows[i].cells[j].classList.remove('table-active');
-      table.rows[i].cells[j].textContent = curValue;
-      if (!curValue) {
-        table.rows[i].cells[j].classList.add('table-active');
+// VIEW: ----------------------------------------------
+const render = (path, value) => {
+  const counterEl = document.querySelector('.counter');
+  const gameField = document.querySelector('.game-field');
+
+  if (path === 'fieldNums') {
+    const fieldNums = value;
+    for (let i = 0; i < 4; i += 1) {
+      for (let j = 0; j < 4; j += 1) {
+        const curValue = fieldNums[4 * i + j];
+        gameField.rows[i].cells[j].classList.remove('table-active');
+        gameField.rows[i].cells[j].textContent = curValue;
+        if (!curValue) {
+          gameField.rows[i].cells[j].classList.add('table-active');
+        }
       }
     }
   }
-  counterEl.textContent = counter.value;
-};
 
-const moveActiveEmptyCell = (actionKey, fieldValues, counter) => {
-  const acceptableKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
-  if (!acceptableKeys.includes(actionKey)) {
-    return;
+  if (path === 'moveCount') {
+    counterEl.textContent = value;
   }
 
-  const prevActiveIndex = fieldValues.indexOf(null);
-  let newIndex;
-  switch (actionKey) {
-    case 'ArrowRight':
-      if (prevActiveIndex % 4 !== 0 && prevActiveIndex !== 0) {
-        newIndex = prevActiveIndex - 1;
-        counter.value += 1;
-      } else {
-        return;
-      }
-      break;
-    case 'ArrowLeft':
-      if ((prevActiveIndex + 1) % 4 !== 0) {
-        newIndex = prevActiveIndex + 1;
-        counter.value += 1;
-      } else {
-        return;
-      }
-      break;
-    case 'ArrowDown':
-      if (prevActiveIndex - 4 >= 0) {
-        newIndex = prevActiveIndex - 4;
-        counter.value += 1;
-      } else {
-        return;
-      }
-      break;
-    case 'ArrowUp':
-      if (prevActiveIndex + 4 < 16) {
-        newIndex = prevActiveIndex + 4;
-        counter.value += 1;
-      } else {
-        return;
-      }
-      break;
-    default:
-      return;
+  if (path === 'completed') {
+    setTimeout(alert, 300, 'Congratulations!');
   }
-
-  const temp = fieldValues[newIndex];
-  fieldValues[newIndex] = fieldValues[prevActiveIndex];
-  fieldValues[prevActiveIndex] = temp;
 };
+// ---------------------------------------------------
 
 export default (randomize = _.shuffle) => {
-  const divEl = document.querySelector('.gem-puzzle');
-  const newTable = generateTable(4, 4);
-  divEl.appendChild(newTable);
-  const counterEl = document.querySelector('.counter');
-  const counter = { value: 0 };
+  // MODEL
+  const state = {
+    completed: false,
+    fieldNums: [],
+    moveCount: 0,
+  };
 
-  const shuffleValues = randomize(values) || values;
-  shuffleValues.push(null);
+  // initialisation =================================
+  const fieldContainer = document.querySelector('.gem-puzzle');
+  const newField = generateTable(4, 4);
+  fieldContainer.appendChild(newField);
 
-  const table = divEl.firstElementChild;
-  render(table, shuffleValues, counterEl, counter);
+  const watchedState = onChange(state, render);
+
+  const initialField = randomize(values);
+  initialField.push(null);
+  watchedState.fieldNums = initialField;
+
+  // CONTROLLER==========================================
+  const keyHandler = (actionKey, appState) => {
+    const acceptableKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
+    if (!acceptableKeys.includes(actionKey)) {
+      return;
+    }
+
+    const prevActiveIndex = appState.fieldNums.indexOf(null);
+    let newIndex;
+    switch (actionKey) {
+      case 'ArrowRight':
+        if (prevActiveIndex % 4 !== 0 && prevActiveIndex !== 0) {
+          newIndex = prevActiveIndex - 1;
+          appState.moveCount += 1;
+        } else {
+          return;
+        }
+        break;
+      case 'ArrowLeft':
+        if ((prevActiveIndex + 1) % 4 !== 0) {
+          newIndex = prevActiveIndex + 1;
+          appState.moveCount += 1;
+        } else {
+          return;
+        }
+        break;
+      case 'ArrowDown':
+        if (prevActiveIndex - 4 >= 0) {
+          newIndex = prevActiveIndex - 4;
+          appState.moveCount += 1;
+        } else {
+          return;
+        }
+        break;
+      case 'ArrowUp':
+        if (prevActiveIndex + 4 < 16) {
+          newIndex = prevActiveIndex + 4;
+          appState.moveCount += 1;
+        } else {
+          return;
+        }
+        break;
+      default:
+        return;
+    }
+
+    const temp = appState.fieldNums[newIndex];
+    appState.fieldNums[newIndex] = appState.fieldNums[prevActiveIndex];
+    appState.fieldNums[prevActiveIndex] = temp;
+    // to make the on-change handle the changes of array
+    appState.fieldNums = [...appState.fieldNums];
+  };
 
   document.body.addEventListener('keyup', e => {
-    const { key } = e;
-    moveActiveEmptyCell(key, shuffleValues, counter);
-    render(table, shuffleValues, counterEl, counter);
+    keyHandler(e.key, watchedState);
+
+    const completedField = [
+      1,
+      5,
+      9,
+      13,
+      2,
+      6,
+      10,
+      14,
+      3,
+      7,
+      11,
+      15,
+      4,
+      8,
+      12,
+      null,
+    ];
+
+    if (_.isEqual(watchedState.fieldNums, completedField)) {
+      watchedState.completed = true;
+    }
   });
 };
