@@ -24,7 +24,7 @@ function generateTable(rowNum, colNum) {
 
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
-const render = (table, tableValues) => {
+const render = (table, tableValues, counterEl, counter) => {
   for (let i = 0; i < 4; i += 1) {
     for (let j = 0; j < 4; j += 1) {
       /* eslint-disable no-param-reassign */
@@ -36,9 +36,10 @@ const render = (table, tableValues) => {
       }
     }
   }
+  counterEl.textContent = counter.value;
 };
 
-const moveActiveCell = (actionKey, fieldValues) => {
+const moveActiveEmptyCell = (actionKey, fieldValues, counter) => {
   const acceptableKeys = ['ArrowRight', 'ArrowLeft', 'ArrowUp', 'ArrowDown'];
   if (!acceptableKeys.includes(actionKey)) {
     return;
@@ -50,6 +51,7 @@ const moveActiveCell = (actionKey, fieldValues) => {
     case 'ArrowRight':
       if (prevActiveIndex % 4 !== 0 && prevActiveIndex !== 0) {
         newIndex = prevActiveIndex - 1;
+        counter.value += 1;
       } else {
         return;
       }
@@ -57,6 +59,7 @@ const moveActiveCell = (actionKey, fieldValues) => {
     case 'ArrowLeft':
       if ((prevActiveIndex + 1) % 4 !== 0) {
         newIndex = prevActiveIndex + 1;
+        counter.value += 1;
       } else {
         return;
       }
@@ -64,6 +67,7 @@ const moveActiveCell = (actionKey, fieldValues) => {
     case 'ArrowDown':
       if (prevActiveIndex - 4 >= 0) {
         newIndex = prevActiveIndex - 4;
+        counter.value += 1;
       } else {
         return;
       }
@@ -71,6 +75,7 @@ const moveActiveCell = (actionKey, fieldValues) => {
     case 'ArrowUp':
       if (prevActiveIndex + 4 < 16) {
         newIndex = prevActiveIndex + 4;
+        counter.value += 1;
       } else {
         return;
       }
@@ -88,16 +93,18 @@ export default (randomize = _.shuffle) => {
   const divEl = document.querySelector('.gem-puzzle');
   const newTable = generateTable(4, 4);
   divEl.appendChild(newTable);
+  const counterEl = document.querySelector('.counter');
+  const counter = { value: 0 };
 
   const shuffleValues = randomize(values) || values;
   shuffleValues.push(null);
 
   const table = divEl.firstElementChild;
-  render(table, shuffleValues);
+  render(table, shuffleValues, counterEl, counter);
 
   document.body.addEventListener('keyup', e => {
     const { key } = e;
-    moveActiveCell(key, shuffleValues);
-    render(table, shuffleValues);
+    moveActiveEmptyCell(key, shuffleValues, counter);
+    render(table, shuffleValues, counterEl, counter);
   });
 };
