@@ -1,72 +1,88 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="../src/styles.css" />
+    <title>Spotties</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="stylesheet" href="../src/styles.css" />
-  <title>Spotties</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+      crossorigin="anonymous"
+    />
+  </head>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" />
-</head>
+  <body>
+    <h2>My first web project. Spotties game</h2>
 
-<body>
-  <h2>My first web project. Spotties game</h2>
-
-  <div>
-    <p><em>Based on Hexlet challenge</em></p>
-    <p>
-      The game of 15 or spotties is a popular puzzle game invented in 1878 by
-      Noah Chapman. The goal of the game is to move the tales around the box
-      to arrange them by numbers, preferably with as few movements as
-      possible.
-    </p>
-  </div>
-
-  <div class="container m-3">
-    <div class="gem-puzzle box"></div>
-    <div class="count box">
-      <p>Count of movements:</p>
-      <h3 style="color: green" class="counter">0</h3>
+    <div>
+      <p><em>Based on Hexlet challenge</em></p>
+      <p>
+        The game of 15 or spotties is a popular puzzle game invented in 1878 by
+        Noah Chapman. The goal of the game is to move the tales around the box
+        to arrange them by numbers, preferably with as few movements as
+        possible.
+      </p>
     </div>
-  </div>
 
-  <div class="container m-1">
-    <p style="color: green">
-      Use keyboard arrows to move tales. <br />
-      The field should be filled with values from top to bottom from left to
-      right:
-    </p>
-    <table class="table-bordered table-sm text-center">
-      <tr>
-        <td class="p-2">1</td>
-        <td>5</td>
-        <td>9</td>
-        <td>13</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>6</td>
-        <td>10</td>
-        <td>14</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>7</td>
-        <td>11</td>
-        <td>15</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>8</td>
-        <td>12</td>
-        <td></td>
-      </tr>
-    </table>
-  </div>
-  <script src="bundle.js"></script>
-</body>
+    <div class="container m-3">
+      <div class="gem-puzzle box"></div>
+      <div class="count box">
+        <p>Count of movements:</p>
+        <h3 style="color: green" class="counter">0</h3>
+      </div>
+    </div>
 
+    <div class="container m-1">
+      <p style="color: green">
+        Use keyboard arrows to move tales. <br />
+        The field should be filled with values from top to bottom from left to
+        right:
+      </p>
+      <table class="table-bordered table-sm text-center">
+        <tr>
+          <td class="p-2">1</td>
+          <td>5</td>
+          <td>9</td>
+          <td>13</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>6</td>
+          <td>10</td>
+          <td>14</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>7</td>
+          <td>11</td>
+          <td>15</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>8</td>
+          <td>12</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- modal window -->
+    <div class="my-modal-overlay" id="modal">
+      <div class="my-modal">
+        <h2>Congratulations! You have done it!</h2>
+        <span id="move-count"></span>
+        <p>You can try again.</p>
+        <button id="restart">Restart</button>
+      </div>
+    </div>
+
+    <script src="bundle.js"></script>
+  </body>
 </html>

@@ -29,6 +29,8 @@ const values = [1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12];
 const render = (path, value) => {
   const counterEl = document.querySelector('.counter');
   const gameField = document.querySelector('.game-field');
+  const modal = document.getElementById('modal');
+  const resultCount = document.getElementById('move-count');
 
   if (path === 'fieldNums') {
     const fieldNums = value;
@@ -49,7 +51,13 @@ const render = (path, value) => {
   }
 
   if (path === 'completed') {
-    setTimeout(alert, 300, 'Congratulations!');
+    if (value === true) {
+      modal.style.display = 'flex';
+      modal.classList.add('active');
+      resultCount.textContent = `Number of movements is ${counterEl.textContent}`;
+    } else {
+      modal.classList.remove('active');
+    }
   }
 };
 // ---------------------------------------------------
@@ -66,6 +74,7 @@ export default (randomize = _.shuffle) => {
   const fieldContainer = document.querySelector('.gem-puzzle');
   const newField = generateTable(4, 4);
   fieldContainer.appendChild(newField);
+  const restartButton = document.getElementById('restart');
 
   const watchedState = onChange(state, render);
 
@@ -127,7 +136,9 @@ export default (randomize = _.shuffle) => {
   };
 
   document.body.addEventListener('keyup', e => {
-    keyHandler(e.key, watchedState);
+    if (!watchedState.completed) {
+      keyHandler(e.key, watchedState);
+    }
 
     const completedField = [
       1,
@@ -151,5 +162,14 @@ export default (randomize = _.shuffle) => {
     if (_.isEqual(watchedState.fieldNums, completedField)) {
       watchedState.completed = true;
     }
+  });
+
+  restartButton.addEventListener('click', () => {
+    const newInitialField = randomize(values);
+    newInitialField.push(null);
+    watchedState.fieldNums = newInitialField;
+
+    watchedState.completed = false;
+    watchedState.moveCount = 0;
   });
 };
