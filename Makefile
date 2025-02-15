@@ -1,21 +1,9 @@
-install: deps-install
-	npx simple-git-hooks
-
-deps-install:
-	npm ci --legacy-peer-deps
-
-deps-update:
-	npx ncu -u
+install: 
+	npm install
 
 test:
 	npm test
 
-test-coverage:
-	npm test -- --coverage --coverageProvider=v8
-
-http-server:
-	npx http-server ./dist
-	
 bundle:
 	npm run build
 

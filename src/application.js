@@ -2,7 +2,7 @@ import _ from 'lodash';
 import onChange from 'on-change';
 
 /* eslint-disable no-param-reassign */
-function generateTable(rowNum, colNum) {
+export function generateTable(rowNum, colNum) {
   const tbl = document.createElement('table');
   const tblBody = document.createElement('tbody');
   for (let i = 0; i < rowNum; i += 1) {
@@ -26,7 +26,7 @@ function generateTable(rowNum, colNum) {
 const values = [1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12];
 
 // VIEW: ----------------------------------------------
-const render = (path, value) => {
+export const render = (path, value) => {
   const counterEl = document.querySelector('.counter');
   const gameField = document.querySelector('.game-field');
   const modal = document.getElementById('modal');
